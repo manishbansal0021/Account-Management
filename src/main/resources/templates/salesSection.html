@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Stock Details</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<meta charset="utf-8">
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    
+    <ul class="nav navbar-nav">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Home</a>
+    </div>
+      <li><a th:href="@{/}">Stock Section</a></li>
+      <li><a th:href="@{/PurchaseSection}">Purchase Section</a></li>
+      <li class="active"><a href="#">Sale Section</a></li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Cash Section<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a th:href="@{/CashAccount}">Cash Received</a></li>
+          <li><a href="#">Cash Payment</a></li>
+        </ul>
+      </li>
+      <li><a th:href="@{/partylist}">Parties Section</a></li>
+      <li><a th:href="@{/tiledetail}">Add tile</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" style="margin-right:50px">
+    	<input type="text" class="form-control" placeholder="Search" name="search" id="myInput" onkeyup="myFunction()">
+     </ul>
+    
+  </div>
+</nav>
+ 
+ <form th:action="@{/Addsales}" method="get">
+	<button th:type="submit" >Sale on Cash</button>
+	<button th:type="submit" th:formaction="@{/SaleCredit}">Sale on Credit</button>
+</form>
+  
+  
+<br> 
+<div class="container">
+<table class="table table-bordered" id="table">
+<thead>
+                                    <tr>
+                                      <th>Date</th>
+                                      <th>Tile Name</th>
+                                      <th>Party Name</th>
+                                      <th>Size</th>
+                                      <th>Rate</th>
+                                      <th>Quantity</th>
+                                      <th>Amount</th>
+                                      <th>Sale type</th>
+                                    </tr>
+                                </thead>
+ <tbody>
+                                    <tr th:each="sales : ${sales}">
+                                    	<td th:text="${sales.getSdate()}"></td>
+                                        <td th:text="${sales.getTilename()}"></td>
+                                        <td th:text="${sales.getPartyname()}"></td>
+                                        <td th:text="${sales.getSize()}"></td>
+                                        <td th:text="${sales.getRate()}"></td>
+                                        <td th:text="${sales.getQuantity()}"></td>
+                                        <td th:text="${sales.getQuantity()*sales.getRate()}"></td>
+                                        <td th:text="${sales.getSaletype()}"></td>
+                                    </tr>
+                                </tbody>
+</table>
+</div>
+
+<script>
+
+function myFunction() {
+  var input, filter, table, tr, td, i,td2;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0]; 
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+</script>
+
+</body>
+
+
+</html>
